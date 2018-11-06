@@ -1,3 +1,3 @@
-Calgary
-Vancouver
-Toronto
+Calgary,5913490
+Vancouver,6173331
+Toronto,6167865
