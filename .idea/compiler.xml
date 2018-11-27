@@ -7,11 +7,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="geoip2" />
+        <module name="projectw1_team84" />
         <module name="Weather" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="geoip2" target="1.5" />
+      <module name="projectw1_team84" target="8" />
       <module name="Weather" target="8" />
     </bytecodeTargetLevel>
   </component>

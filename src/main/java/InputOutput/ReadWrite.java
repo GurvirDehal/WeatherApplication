@@ -1,11 +1,20 @@
 package InputOutput;
 
+import com.maxmind.geoip2.DatabaseReader;
+import com.maxmind.geoip2.exception.GeoIp2Exception;
+import com.maxmind.geoip2.model.CityResponse;
+import com.maxmind.geoip2.record.City;
+
 import java.io.*;
+import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class ReadWrite implements Load, Save{
 
-    String fileName;
+    private String fileName;
 
     public ReadWrite(String fileName) {
         this.fileName = fileName;
@@ -36,7 +45,7 @@ public class ReadWrite implements Load, Save{
         try {
             outputStream = new PrintWriter(new FileWriter(fileName, true));
             for(int i = 0; i < values.length; i++) {
-                outputStream.append(values[i]+ '\n');
+                outputStream.append((values[i]+ '\n'));
             }
         } catch(IOException ex) {
             System.out.println(ex);
@@ -45,5 +54,61 @@ public class ReadWrite implements Load, Save{
             outputStream.close();
         }
     }
+
+    public static String readUrl(String urlName) {
+        String result = null;
+        try {
+            URL url = new URL(urlName);
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    url.openStream()));
+
+            result = in.readLine(); //you get the IP as a String
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch(MalformedURLException e2){
+            e2.printStackTrace();
+        } catch(IOException e3) {
+            e3.printStackTrace();
+        }
+        return result;
+    }
+
+    public static String searchDataBaseForIP(String databaseLocation, String ip) {
+        File database = new File(databaseLocation);
+        DatabaseReader reader = null;
+
+        try {
+            reader = new DatabaseReader.Builder(database).build();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        InetAddress ipAddress = null;
+
+        try {
+            ipAddress = InetAddress.getByName(ip);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch(IOException e2) {
+            e2.printStackTrace();
+        }
+
+        CityResponse response = null;
+
+        try {
+            response = reader.city(ipAddress);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (GeoIp2Exception e) {
+            e.printStackTrace();
+        }
+
+        String countryCode = response.getCountry().getIsoCode();
+        City city = response.getCity();
+        return city.getName()  + ", "  + countryCode;
+
+    }
+
+
 }
 

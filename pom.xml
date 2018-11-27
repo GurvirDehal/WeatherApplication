@@ -5,7 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.mycompany.weatherapp</groupId>
-    <artifactId>Weather</artifactId>
+    <artifactId>PersonalProject
+    </artifactId>
     <version>1.0-SNAPSHOT</version>
     <build>
         <plugins>

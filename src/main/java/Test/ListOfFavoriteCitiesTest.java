@@ -1,7 +1,7 @@
 package Test;
 
-import cities.FavoriteCity;
-import cities.ListOfFavoriteCities;
+import Location.FavoriteCity;
+import Location.ListOfFavoriteCities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

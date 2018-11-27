@@ -1,3 +1,8 @@
 Calgary,5913490
 Vancouver,6173331
 Toronto,6167865
+Istanbul,745044
+Seattle,5809844
+Regina,6119109
+Mumbai,1275339
+Winnipeg,6183235

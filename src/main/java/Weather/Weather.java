@@ -1,6 +1,6 @@
 package Weather;
 
-import cities.City;
+import Location.City;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Weather {
@@ -18,6 +20,7 @@ public class Weather {
     private String windSpeed;
     private String description;
     private City city;
+    private String icon;
     protected String weatherData;
     protected Map<String, Object> respMap;
     protected Map<String, Object> mainMap;
@@ -64,6 +67,7 @@ public class Weather {
         this.windSpeed = setWindSpeed();
         this.description = setDescription();
         this.temperature = setTemp();
+        this.icon = setIcon();
     }
     private String setDescription() {
         JsonElement jelement = new JsonParser().parse(weatherData);
@@ -71,6 +75,14 @@ public class Weather {
         JsonArray jarray = jobject.getAsJsonArray("weather");
         jobject = jarray.get(0).getAsJsonObject();
         jelement = jobject.get("description");
+        return jelement.toString().replace("\"", "");
+    }
+    private String setIcon() {
+        JsonElement jelement = new JsonParser().parse(weatherData);
+        JsonObject  jobject = jelement.getAsJsonObject();
+        JsonArray jarray = jobject.getAsJsonArray("weather");
+        jobject = jarray.get(0).getAsJsonObject();
+        jelement = jobject.get("icon");
         return jelement.toString().replace("\"", "");
     }
     //EFFECTS: returns humidity as double
@@ -90,4 +102,14 @@ public class Weather {
     public String getHumidity() {return this.humidity;}
     public String getWindSpeed() {return this.windSpeed;}
     public String getTemperature() {return this.temperature;}
+    public String getIcon() {return icon;}
+
+    public List<String> getOrganizedWeatherReport() {
+        List<String> weatherData = new ArrayList<>();
+        weatherData.add("Temperature: " + this.getTemperature() + " °C");
+        weatherData.add("Humidity: " + this.getHumidity() + " %");
+        weatherData.add("Wind Speed: " + this.getWindSpeed() + " m/s");
+        weatherData.add("Description: " + this.getDescription());
+        return weatherData;
+    }
 }

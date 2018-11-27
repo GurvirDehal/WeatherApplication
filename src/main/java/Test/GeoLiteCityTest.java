@@ -1,19 +1,15 @@
 package Test;
 
+import InputOutput.ReadWrite;
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.record.City;
-import com.maxmind.geoip2.record.Country;
 import org.junit.jupiter.api.Test;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.InetAddress;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.net.UnknownHostException;
 
 public class GeoLiteCityTest {
@@ -27,34 +23,26 @@ public class GeoLiteCityTest {
 // the object across lookups. The object is thread-safe.
         DatabaseReader reader = null;
 
-        {
-            try {
-                reader = new DatabaseReader.Builder(database).build();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            reader = new DatabaseReader.Builder(database).build();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
 
 
         InetAddress ipAddress = null;
 
-        {
-            try {
-                URL whatismyip = new URL("http://checkip.amazonaws.com");
-                BufferedReader in = new BufferedReader(new InputStreamReader(
-                        whatismyip.openStream()));
 
-                String ip = in.readLine(); //you get the IP as a String
-                ipAddress = InetAddress.getByName(ip);
-            } catch (UnknownHostException e) {
-                e.printStackTrace();
-            } catch(MalformedURLException e2){
-                e2.printStackTrace();
-            } catch(IOException e3) {
-                e3.printStackTrace();
-            }
+        try {
+            String ip = ReadWrite.readUrl("http://checkip.amazonaws.com");
+            ipAddress = InetAddress.getByName(ip);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch(IOException e2) {
+            e2.printStackTrace();
         }
+
         CityResponse response = null;
 
         {
@@ -67,9 +55,17 @@ public class GeoLiteCityTest {
             }
         }
 
-        Country country = response.getCountry();
+        String countryCode = response.getCountry().getIsoCode();
         City city = response.getCity();
-        System.out.println(city.getName()  + ", "  + country.getIsoCode());
+        System.out.println(city.getName()  + ","  + countryCode);
+    }
+
+    @Test
+    public void test2() {
+        String s = ReadWrite.readUrl("http://checkip.amazonaws.com");
+        System.out.println(s);
+        String x = ReadWrite.searchDataBaseForIP("src/main/java/GeoLite2-City.mmdb", s);
+        System.out.println(x);
     }
 
 

@@ -1,4 +1,4 @@
-package cities;
+package Location;
 
 import Weather.Weather;
 import com.google.gson.Gson;
@@ -12,6 +12,7 @@ import java.util.Objects;
 public abstract class City {
     protected String name;
     protected String id;
+    protected String countryCode;
     protected Weather weather;
 
     public static Map<String, Object> jsonToMap (String str) {
@@ -38,11 +39,15 @@ public abstract class City {
 
     //EFFECTS: prints out weather for city.
     public void printData() {
-        System.out.println("Now Showing Weather Information for: " + this.name);
-        System.out.println("Temperature: " + weather.getTemperature() + " °C");
-        System.out.println("Humidity: " + weather.getHumidity() + " %");
-        System.out.println("Wind Speed: " + weather.getWindSpeed() + " m/s");
-        System.out.println("Description: " + weather.getDescription());
+        System.out.println("Now Showing Weather Information for: " + this.name + ", " + this.countryCode);
+//        System.out.println("Temperature: " + weather.getTemperature() + " °C");
+//        System.out.println("Humidity: " + weather.getHumidity() + " %");
+//        System.out.println("Wind Speed: " + weather.getWindSpeed() + " m/s");
+//        System.out.println("Description: " + weather.getDescription());
+
+        for(String x: weather.getOrganizedWeatherReport())
+            System.out.println(x);
+
         System.out.println();
     }
 
@@ -54,6 +59,7 @@ public abstract class City {
     public String getId() {
         return id;
     }
+    public String getName() {return name;}
 
     @Override
     public boolean equals(Object o) {

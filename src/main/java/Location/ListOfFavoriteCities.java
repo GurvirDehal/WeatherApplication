@@ -1,4 +1,4 @@
-package cities;
+package Location;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +35,15 @@ public class ListOfFavoriteCities {
 
     public City getCity(int i) {
         return loc.get(i);
+    }
+
+    public City contains(String name) {
+        for(FavoriteCity c :loc) {
+            if(c.getName().equals(name)) {
+                return c;
+            }
+        }
+        return null;
     }
 
 }

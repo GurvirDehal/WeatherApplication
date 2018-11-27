@@ -1,9 +1,9 @@
-package cities;
+package Location;
 
-import Time.Time;
+import Time.Clock;
 
 public class FavoriteCity extends City {
-    private Time time;
+    private Clock time;
     public FavoriteCity(String cityName, String id) {
         super(cityName, id);
     }
